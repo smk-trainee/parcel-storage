@@ -3,17 +3,20 @@ services:
   nginx:
     image: nginx:stable
     volumes:
-      - '.:/srv'
       - './docker/nginx/conf.d:/etc/nginx/conf.d'
+      - '.:/srv'
     ports:
       - '8080:80'
     depends_on:
       - php
 
   php:
-    image: php:8.2-fpm
+    build: ./docker
     volumes:
       - '.:/srv'
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+    env_file:
+      - .env
 
   db:
     image: postgres:${POSTGRES_VERSION:-15}-alpine
