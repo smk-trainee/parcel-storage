@@ -7,11 +7,12 @@ namespace App\Service;
 use App\Entity\FullName;
 use App\Entity\Parcel;
 use App\Entity\Sender;
+use App\Interfaces\FindOrCreateInterface;
 use App\Repository\FullNameRepository;
 use App\Repository\SenderRepository;
 use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 
-class SenderService
+class SenderService implements FindOrCreateInterface
 {
     public function __construct(
         private readonly SenderRepository $senderRepo,
@@ -23,6 +24,10 @@ class SenderService
     public function findOrCreate(array $data): Sender
     {
         $fullNameData = $data['fullName'];
+
+        if (!\array_key_exists('phone', $data) || !\array_key_exists('address', $data)) {
+            throw new \Exception('missed required data');
+        }
 
         try {
             $sender = $this->fullNameRepo->findOneBy([

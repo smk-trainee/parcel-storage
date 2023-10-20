@@ -36,10 +36,11 @@ class ParcelDeleteController extends AbstractController
 
         if (!preg_match('/^[1-9][0-9]*$/', $id)) {
             return $this->json([
-                'message' => 'undefined data type',
+                'message' => 'id have to be positive number',
             ], Response::HTTP_BAD_REQUEST);
         }
 
+        $id = (int) $id;
         try {
             return $this->json([
                 'message' => $service->delete($id),
@@ -50,7 +51,7 @@ class ParcelDeleteController extends AbstractController
             ], Response::HTTP_BAD_REQUEST);
         } catch (\TypeError) {
             return $this->json([
-                'message' => 'undefined data type',
+            'message' => 'undefined data type',
             ], Response::HTTP_BAD_REQUEST);
         }
     }

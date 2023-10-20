@@ -10,11 +10,12 @@ use App\Repository\ParcelRepository;
 class ParcelService
 {
     public function __construct(
-        private readonly ParcelRepository $parcelRepo,
-        private readonly SenderService $senderService,
-        private readonly RecipientService $recipientService,
+        private readonly ParcelRepository  $parcelRepo,
+        private readonly SenderService     $senderService,
+        private readonly RecipientService  $recipientService,
         private readonly DimensionsService $dimensionsService
-    ) {
+    )
+    {
     }
 
     /**
@@ -28,9 +29,9 @@ class ParcelService
         }
 
         try {
-            $senderData = $parcelData[0]['sender'];
-            $receiverData = $parcelData[0]['receiver'];
-            $dimensionsData = $parcelData[0]['dimensions'];
+            $senderData = $parcelData['sender'];
+            $receiverData = $parcelData['receiver'];
+            $dimensionsData = $parcelData['dimensions'];
         } catch (\Exception) {
             return 'invalid data map';
         }
@@ -44,7 +45,7 @@ class ParcelService
             ->setRecipient($recipient)
             ->setSender($sender)
             ->setDimensions($dimensions)
-            ->setEstimatedCost($parcelData[0]['estimatedCost']);
+            ->setEstimatedCost($parcelData['estimatedCost']);
         $this->parcelRepo->save($parcel, true);
 
         return 'ok';

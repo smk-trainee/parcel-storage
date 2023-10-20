@@ -7,13 +7,14 @@ namespace App\Service;
 use App\Entity\FullName;
 use App\Entity\Parcel;
 use App\Entity\Recipient;
+use App\Interfaces\FindOrCreateInterface;
 use App\Repository\FullNameRepository;
 use App\Repository\RecipientRepository;
 use Doctrine\ORM\NoResultException;
 use PHPUnit\Runner\Exception;
 use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 
-class RecipientService
+class RecipientService implements FindOrCreateInterface
 {
     public function __construct(
         private readonly FullNameRepository $fullNameRepo,
@@ -25,6 +26,9 @@ class RecipientService
     public function findOrCreate(array $data): Recipient
     {
         $fullNameData = $data['fullName'];
+        if (!\array_key_exists('phone', $data) || !\array_key_exists('address', $data)) {
+            throw new \Exception('missed required data');
+        }
         try {
             $recipient = $this->fullNameRepo->findOneBy([
                 'firstName' => $fullNameData['firstName'],
@@ -67,10 +71,10 @@ class RecipientService
 
     private function formatSearchData(Recipient $recipient): array
     {
-        $parcels = $recipient->getParcels();
-        if (!$parcels instanceof Parcel) {
+        if (null === $recipient->getParcels() || 0 === $recipient->getParcels()->count()) {
             throw new InvalidTypeException('no parcels');
         }
+        $parcels = $recipient->getParcels();
         $result = [];
 
         /** @var Parcel $parcel */
