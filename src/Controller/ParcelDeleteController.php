@@ -26,8 +26,8 @@ class ParcelDeleteController extends AbstractController
         description: 'Returns the success of delete parcel',
     )]
     #[OA\Response(
-        response: 400,
-        description: 'Returns in case of invalid incoming data',
+        response: 422,
+        description: 'Returns in case of unexciting parcel',
     )]
     #[Route('/api/parcel', name: 'app_parcel_delete', methods: 'DELETE')]
     public function delete(Request $request, ParcelService $service): JsonResponse
@@ -35,10 +35,11 @@ class ParcelDeleteController extends AbstractController
         $id = $request->get('parcelId');
 
         if (!preg_match('/^[1-9][0-9]*$/', $id)) {
-            throw new \Exception('invalid parcel id');
+            return $this->json([
+                'message' => 'undefined data type',
+            ], Response::HTTP_BAD_REQUEST);
         }
 
-        $id = (int) $id;
         try {
             return $this->json([
                 'message' => $service->delete($id),
