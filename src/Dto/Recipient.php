@@ -8,6 +8,7 @@ final class Recipient
 {
     public function __construct(
         public readonly FullName $fullName,
+        public readonly string $address,
         public readonly string $phone,
     ) {
     }
