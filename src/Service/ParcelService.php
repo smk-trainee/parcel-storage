@@ -28,9 +28,9 @@ class ParcelService
         }
 
         try {
-            $senderData = $parcelData['sender'];
-            $receiverData = $parcelData['receiver'];
-            $dimensionsData = $parcelData['dimensions'][0];
+            $senderData = $parcelData[0]['sender'];
+            $receiverData = $parcelData[0]['receiver'];
+            $dimensionsData = $parcelData[0]['dimensions'];
         } catch (\Exception) {
             return 'invalid data map';
         }
@@ -44,7 +44,7 @@ class ParcelService
             ->setRecipient($recipient)
             ->setSender($sender)
             ->setDimensions($dimensions)
-            ->setEstimatedCost($parcelData['estimatedCost']);
+            ->setEstimatedCost($parcelData[0]['estimatedCost']);
         $this->parcelRepo->save($parcel, true);
 
         return 'ok';

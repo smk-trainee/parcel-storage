@@ -14,6 +14,7 @@ use PHPUnit\Framework\TestCase;
 class RecipientServiceTest extends TestCase
 {
     private RecipientService $recipientService;
+
     protected function setUp(): void
     {
         $this->recipientService = new RecipientService(
@@ -26,12 +27,10 @@ class RecipientServiceTest extends TestCase
     public function testFindOrCreate(): void
     {
         $data = [
-            'fullname' => [
-                0 => [
-                    'lastName' => 'test_lname',
-                    'firstName' => 'test_fname',
-                    'middleName' => 'test_mname',
-                ],
+            'fullName' => [
+                'lastName' => 'test_lname',
+                'firstName' => 'test_fname',
+                'middleName' => 'test_mname',
             ],
             'phone' => '1234567890',
             'address' => 'test_address',

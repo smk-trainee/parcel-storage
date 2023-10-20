@@ -22,7 +22,7 @@ class SenderService
 
     public function findOrCreate(array $data): Sender
     {
-        $fullNameData = $data['fullname'][0];
+        $fullNameData = $data['fullName'];
 
         try {
             $sender = $this->fullNameRepo->findOneBy([

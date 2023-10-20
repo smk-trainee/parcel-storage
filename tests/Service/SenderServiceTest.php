@@ -41,12 +41,10 @@ class SenderServiceTest extends TestCase
     public function testFindOrCreate(): void
     {
         $data = [
-            'fullname' => [
-                0 => [
+            'fullName' => [
                     'lastName' => 'test_lname',
                     'firstName' => 'test_fname',
                     'middleName' => 'test_mname',
-                ],
             ],
             'phone' => '1234567890',
             'address' => 'test_address',

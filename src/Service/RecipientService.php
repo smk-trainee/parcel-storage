@@ -24,14 +24,14 @@ class RecipientService
 
     public function findOrCreate(array $data): Recipient
     {
-        $fullNameData = $data['fullname'][0];
+        $fullNameData = $data['fullName'];
         try {
             $recipient = $this->fullNameRepo->findOneBy([
                 'firstName' => $fullNameData['firstName'],
                 'lastName' => $fullNameData['lastName'],
                 'middleName' => $fullNameData['middleName'],
             ]);
-            if ($recipient instanceof FullName) {
+            if ($recipient instanceof FullName && 0 !== $recipient->getRecipients()->count()) {
                 return $recipient->getRecipients()->last();
             }
             $recipient = $this->createNewRecipient($fullNameData, $data['phone'], $data['address']);
