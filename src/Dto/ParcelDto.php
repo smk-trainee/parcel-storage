@@ -4,14 +4,24 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 final class ParcelDto
 {
     public function __construct(
-        public readonly string $id,
+
+        #[Assert\Valid]
         public readonly Sender $sender,
-        public readonly Recipient $receiver,
+
+        #[Assert\Valid]
+        public readonly Recipient $recipient,
+
+        #[Assert\Valid]
         public readonly Dimensions $dimensions,
-        public readonly int $estimatedCost
+
+        #[Assert\NotBlank]
+        #[Assert\Type("integer")]
+        public readonly int $valuation
     ) {
     }
 }
